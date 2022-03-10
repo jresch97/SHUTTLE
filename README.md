@@ -3,12 +3,14 @@ Retained GUI toolkit for Linux in C.
 
 Components/Dependencies:
 
-EUROPA  - PAL
+EUROPA - PAL
 
-COSINE  - C Object System
+COSINE - C Object System
 
 MERCURY - Resource Parsers
 
-NOVM    - Browser
+NOVM - Browser
 
 STRUCTX - Data Structure Prototyping
+
+VIEWPORT - Procedural Texture Prototyping
