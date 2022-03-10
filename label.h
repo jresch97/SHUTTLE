@@ -24,23 +24,22 @@
 
 #include "widget.h"
 
-typedef struct GUI_LABEL_CLASS_S *GUI_LABEL_CLASS;
-typedef struct GUI_LABEL_S       *GUI_LABEL;
-
 #define GUI_LABEL_CLASS_NAME        "Label"
 #define GUI_LABEL_TYPE              (gui_label_class_get())
+#define GUI_LABEL_CAST(lbl)         ((GUI_LABEL)lbl)
 #define GUI_LABEL_TEXT(lbl)         (((GUI_LABEL)lbl)->text)
 #define GUI_LABEL_CLASS_CAST(class) ((GUI_LABEL_CLASS)class)
 
+typedef struct GUI_LABEL_CLASS_S *GUI_LABEL_CLASS;
+typedef struct GUI_LABEL_S       *GUI_LABEL;
+
 struct GUI_LABEL_CLASS_S {
-        struct COS_CLASS_S class;
+        struct GUI_WIDGET_CLASS_S class;
 };
 
 COS_CLASS gui_label_class_get();
 void      gui_label_class_ctor(COS_CLASS class);
 void      gui_label_class_dtor(COS_CLASS class);
-
-#define GUI_LABEL_CAST(obj) ((GUI_LABEL)obj)
 
 struct GUI_LABEL_S {
         struct GUI_WIDGET_S widget;

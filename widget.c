@@ -37,7 +37,7 @@ static void gui_widget_pr1nt(GUI_WIDGET this, int level)
         size_t i;
         GUI_WIDGET curr = GUI_WIDGET_CHILD(this);
         for (i = 0; i < level; i++) printf("\t");
-        GUI_WIDGET_CLASS_PRINT(COS_OBJECT_CLASS(this))(this);
+        GUI_WIDGET_CLASS_PRINT(GUI_WIDGET_CLASS(this))(this);
         printf("\n");
         while (curr) {
                 gui_widget_pr1nt(curr, level + 1);

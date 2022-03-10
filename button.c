@@ -32,10 +32,10 @@
 static void gui_button_print_method(GUI_WIDGET this)
 {
         printf("[%4d,%4d,%4d,%4d] [%s]",
-                this->rect.left,
-                this->rect.top,
-                this->rect.right,
-                this->rect.bottom,
+                GUI_WIDGET_LEFT(this),
+                GUI_WIDGET_TOP(this),
+                GUI_WIDGET_RIGHT(this),
+                GUI_WIDGET_BOTTOM(this),
                 GUI_BUTTON_TEXT(this));
 }
 
