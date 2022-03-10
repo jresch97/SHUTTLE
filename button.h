@@ -25,7 +25,7 @@
 #include "widget.h"
 
 #define GUI_BUTTON_CLASS_NAME        "Button"
-#define GUI_BUTTON_TYPE              (gui_button_class_get())
+#define GUI_BUTTON_TYPE              (gui_btn_class_get())
 #define GUI_BUTTON_CAST(btn)         ((GUI_BUTTON)btn)
 #define GUI_BUTTON_TEXT(btn)         (((GUI_BUTTON)btn)->text)
 #define GUI_BUTTON_CLASS_CAST(class) ((GUI_BUTTON_CLASS)class)
@@ -42,10 +42,10 @@ struct GUI_BUTTON_S {
         char *text;
 };
 
-COS_CLASS gui_button_class_get();
-void      gui_button_class_ctor(COS_CLASS class);
-void      gui_button_class_dtor(COS_CLASS class);
-void      gui_button_ctor(COS_OBJECT this, COS_VALUES vals);
-void      gui_button_dtor(COS_OBJECT this);
+COS_CLASS gui_btn_class_get();
+void      gui_btn_class_ctor(COS_CLASS class);
+void      gui_btn_class_dtor(COS_CLASS class);
+void      gui_btn_ctor(COS_OBJECT this, COS_VALUES vals);
+void      gui_btn_dtor(COS_OBJECT this);
 
 #endif

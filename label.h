@@ -25,7 +25,7 @@
 #include "widget.h"
 
 #define GUI_LABEL_CLASS_NAME        "Label"
-#define GUI_LABEL_TYPE              (gui_label_class_get())
+#define GUI_LABEL_TYPE              (gui_lbl_class_get())
 #define GUI_LABEL_CAST(lbl)         ((GUI_LABEL)lbl)
 #define GUI_LABEL_TEXT(lbl)         (((GUI_LABEL)lbl)->text)
 #define GUI_LABEL_CLASS_CAST(class) ((GUI_LABEL_CLASS)class)
@@ -37,16 +37,15 @@ struct GUI_LABEL_CLASS_S {
         struct GUI_WIDGET_CLASS_S class;
 };
 
-COS_CLASS gui_label_class_get();
-void      gui_label_class_ctor(COS_CLASS class);
-void      gui_label_class_dtor(COS_CLASS class);
-
 struct GUI_LABEL_S {
         struct GUI_WIDGET_S widget;
         char *text;
 };
 
-void gui_label_ctor(COS_OBJECT this, COS_VALUES vals);
-void gui_label_dtor(COS_OBJECT this);
+COS_CLASS gui_lbl_class_get();
+void      gui_lbl_class_ctor(COS_CLASS class);
+void      gui_lbl_class_dtor(COS_CLASS class);
+void      gui_lbl_ctor(COS_OBJECT this, COS_VALUES vals);
+void      gui_lbl_dtor(COS_OBJECT this);
 
 #endif

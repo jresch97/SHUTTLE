@@ -29,7 +29,7 @@
 #include "param.h"
 #include "value.h"
 
-static void gui_button_print_method(GUI_WIDGET this)
+static void gui_btn_print_method(GUI_WIDGET this)
 {
         printf("[%4d,%4d,%4d,%4d] [%s]",
                 GUI_WIDGET_LEFT(this),
@@ -39,7 +39,7 @@ static void gui_button_print_method(GUI_WIDGET this)
                 GUI_BUTTON_TEXT(this));
 }
 
-COS_CLASS gui_button_class_get()
+COS_CLASS gui_btn_class_get()
 {
         COS_CLASS class;
         COS_CLASS_INFO info;
@@ -47,36 +47,36 @@ COS_CLASS gui_button_class_get()
         info.name        = GUI_BUTTON_CLASS_NAME;
         info.parent      = GUI_WIDGET_TYPE;
         info.class.size  = sizeof(struct GUI_BUTTON_CLASS_S);
-        info.class.ctor  = gui_button_class_ctor;
-        info.class.dtor  = gui_button_class_dtor;
+        info.class.ctor  = gui_btn_class_ctor;
+        info.class.dtor  = gui_btn_class_dtor;
         info.inst.size   = sizeof(struct GUI_BUTTON_S);
-        info.inst.ctor   = gui_button_ctor;
-        info.inst.dtor   = gui_button_dtor;
+        info.inst.ctor   = gui_btn_ctor;
+        info.inst.dtor   = gui_btn_dtor;
         info.inst.params = cos_params(1, "text", COS_TYPE_C_STR);
         return cos_class_define(&info);
 }
 
-void gui_button_class_ctor(COS_CLASS class)
+void gui_btn_class_ctor(COS_CLASS class)
 {
         cos_super_class_ctor(GUI_WIDGET_TYPE);
-        GUI_WIDGET_CLASS_PRINT(class) = gui_button_print_method;
+        GUI_WIDGET_CLASS_PRINT(class) = gui_btn_print_method;
 }
 
-void gui_button_class_dtor(COS_CLASS class)
+void gui_btn_class_dtor(COS_CLASS class)
 {
         cos_super_class_dtor(GUI_WIDGET_TYPE);
 }
 
-void gui_button_ctor(COS_OBJECT this, COS_VALUES vals)
+void gui_btn_ctor(COS_OBJECT this, COS_VALUES vals)
 {
         const char *text;
-        cos_super_ctor(GUI_WIDGET_TYPE, this);
+        cos_super_ctor(GUI_WIDGET_TYPE, this, GUI_LAYOUT_NONE);
         text = cos_unbox_c_str(cos_values_at(vals, 0));
         GUI_BUTTON_TEXT(this) = malloc(strlen(text) + 1);
         strcpy(GUI_BUTTON_TEXT(this), text);
 }
 
-void gui_button_dtor(COS_OBJECT this)
+void gui_btn_dtor(COS_OBJECT this)
 {
         if (GUI_BUTTON_TEXT(this)) free(GUI_BUTTON_TEXT(this));
         cos_super_dtor(GUI_WIDGET_TYPE, this);
