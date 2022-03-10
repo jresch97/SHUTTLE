@@ -24,12 +24,13 @@
 
 #include "widget.h"
 
-typedef struct GUI_BUTTON_CLASS_S *GUI_BUTTON_CLASS_T;
+typedef struct GUI_BUTTON_CLASS_S *GUI_BUTTON_CLASS;
 typedef struct GUI_BUTTON_S       *GUI_BUTTON;
 
-#define GUI_BUTTON_CLASS             (gui_button_class_get())
 #define GUI_BUTTON_CLASS_NAME        "Button"
-#define GUI_BUTTON_CLASS_CAST(class) ((GUI_BUTTON_CLASS_T)class)
+#define GUI_BUTTON_TYPE              (gui_button_class_get())
+#define GUI_BUTTON_TEXT(btn)         (((GUI_BUTTON)btn)->text)
+#define GUI_BUTTON_CLASS_CAST(class) ((GUI_BUTTON_CLASS)class)
 
 struct GUI_BUTTON_CLASS_S {
         struct COS_CLASS_S class;

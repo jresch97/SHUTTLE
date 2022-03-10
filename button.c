@@ -31,11 +31,12 @@
 
 static void gui_button_print_method(GUI_WIDGET this)
 {
-        printf("[%4d,%4d,%4d,%4d] [%s]", this->rect.left,
-                                         this->rect.top,
-                                         this->rect.right,
-                                         this->rect.bottom,
-                                         GUI_BUTTON_CAST(this)->text);
+        printf("[%4d,%4d,%4d,%4d] [%s]",
+                this->rect.left,
+                this->rect.top,
+                this->rect.right,
+                this->rect.bottom,
+                GUI_BUTTON_TEXT(this));
 }
 
 COS_CLASS gui_button_class_get()
@@ -44,7 +45,7 @@ COS_CLASS gui_button_class_get()
         COS_CLASS_INFO info;
         if (cos_class_lookup(GUI_BUTTON_CLASS_NAME, &class)) return class;
         info.name        = GUI_BUTTON_CLASS_NAME;
-        info.parent      = GUI_WIDGET_CLASS;
+        info.parent      = GUI_WIDGET_TYPE;
         info.class.size  = sizeof(struct GUI_BUTTON_CLASS_S);
         info.class.ctor  = gui_button_class_ctor;
         info.class.dtor  = gui_button_class_dtor;
@@ -57,20 +58,20 @@ COS_CLASS gui_button_class_get()
 
 void gui_button_class_ctor(COS_CLASS class)
 {
-        gui_widget_class_ctor(class);
-        GUI_WIDGET_CLASS_CAST(class)->print = gui_button_print_method;
+        cos_super_class_ctor(GUI_WIDGET_TYPE);
+        GUI_WIDGET_CLASS_PRINT(class) = gui_button_print_method;
 }
 
 void gui_button_class_dtor(COS_CLASS class)
 {
-        gui_widget_class_dtor(class);
+        cos_super_class_dtor(GUI_WIDGET_TYPE);
 }
 
 void gui_button_ctor(COS_OBJECT this, COS_VALUES values)
 {
         GUI_BUTTON button;
         const char *text;
-        cos_super(GUI_WIDGET_CLASS, this);
+        cos_super_ctor(GUI_WIDGET_TYPE, this);
         button = GUI_BUTTON_CAST(this);
         text = cos_unbox_c_str(cos_values_at(values, 0));
         button->text = malloc(strlen(text) + 1);
@@ -80,5 +81,5 @@ void gui_button_ctor(COS_OBJECT this, COS_VALUES values)
 void gui_button_dtor(COS_OBJECT this)
 {
         free(GUI_BUTTON_CAST(this)->text);
-        gui_widget_dtor(this);
+        cos_super_dtor(GUI_WIDGET_TYPE, this);
 }

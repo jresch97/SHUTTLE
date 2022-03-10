@@ -34,17 +34,16 @@ int main(void)
         
         if (!cos_init()) return EXIT_FAILURE;
         
-        widget = cos_new(GUI_WIDGET_CLASS);
-        button = cos_new(GUI_BUTTON_CLASS, "A Button");
-        label  = cos_new(GUI_LABEL_CLASS, "A Label");
+        widget = cos_new(GUI_WIDGET_TYPE);
+        button = cos_new(GUI_BUTTON_TYPE, "Hello Button");
+        label  = cos_new(GUI_LABEL_TYPE,  "Hello Label");
         
         gui_widget_append(widget, button);
         gui_widget_append(widget, label);
+        
         gui_widget_print(widget);
         
-        cos_deref(button);
-        cos_deref(widget);
-        cos_deref(label);
+        cos_deref_many(3, button, widget, label);
         
         cos_term();
         
