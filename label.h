@@ -27,8 +27,9 @@
 typedef struct GUI_LABEL_CLASS_S *GUI_LABEL_CLASS;
 typedef struct GUI_LABEL_S       *GUI_LABEL;
 
-#define GUI_LABEL_TYPE              (gui_label_class_get())
 #define GUI_LABEL_CLASS_NAME        "Label"
+#define GUI_LABEL_TYPE              (gui_label_class_get())
+#define GUI_LABEL_TEXT(lbl)         (((GUI_LABEL)lbl)->text)
 #define GUI_LABEL_CLASS_CAST(class) ((GUI_LABEL_CLASS)class)
 
 struct GUI_LABEL_CLASS_S {
@@ -46,7 +47,7 @@ struct GUI_LABEL_S {
         char *text;
 };
 
-void gui_label_ctor(COS_OBJECT this, COS_VALUES values);
+void gui_label_ctor(COS_OBJECT this, COS_VALUES vals);
 void gui_label_dtor(COS_OBJECT this);
 
 #endif

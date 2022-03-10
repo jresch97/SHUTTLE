@@ -73,7 +73,7 @@ typedef struct GUI_WIDGET_S       *GUI_WIDGET;
 struct GUI_WIDGET_CLASS_S {
         struct COS_CLASS_S class;
         void (*print)(GUI_WIDGET);
-        void (*draw) (GUI_WIDGET, GUI_COMMANDS);
+        void  (*draw)(GUI_WIDGET, GUI_COMMANDS);
         void (*paint)(GUI_WIDGET, GUI_FRAMEBUFFER, GUI_RECT);
 };
 

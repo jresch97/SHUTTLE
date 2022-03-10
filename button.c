@@ -67,19 +67,17 @@ void gui_button_class_dtor(COS_CLASS class)
         cos_super_class_dtor(GUI_WIDGET_TYPE);
 }
 
-void gui_button_ctor(COS_OBJECT this, COS_VALUES values)
+void gui_button_ctor(COS_OBJECT this, COS_VALUES vals)
 {
-        GUI_BUTTON button;
         const char *text;
         cos_super_ctor(GUI_WIDGET_TYPE, this);
-        button = GUI_BUTTON_CAST(this);
-        text = cos_unbox_c_str(cos_values_at(values, 0));
-        button->text = malloc(strlen(text) + 1);
-        strcpy(button->text, text);
+        text = cos_unbox_c_str(cos_values_at(vals, 0));
+        GUI_BUTTON_TEXT(this) = malloc(strlen(text) + 1);
+        strcpy(GUI_BUTTON_TEXT(this), text);
 }
 
 void gui_button_dtor(COS_OBJECT this)
 {
-        free(GUI_BUTTON_CAST(this)->text);
+        if (GUI_BUTTON_TEXT(this)) free(GUI_BUTTON_TEXT(this));
         cos_super_dtor(GUI_WIDGET_TYPE, this);
 }

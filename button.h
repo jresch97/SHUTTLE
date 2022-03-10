@@ -47,7 +47,7 @@ struct GUI_BUTTON_S {
         char *text;
 };
 
-void gui_button_ctor(COS_OBJECT this, COS_VALUES values);
+void gui_button_ctor(COS_OBJECT this, COS_VALUES vals);
 void gui_button_dtor(COS_OBJECT this);
 
 #endif

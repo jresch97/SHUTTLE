@@ -31,11 +31,12 @@
 
 static void gui_label_print_method(GUI_WIDGET this)
 {
-        printf("[%4d,%4d,%4d,%4d] \"%s\"", this->rect.left,
-                                           this->rect.top,
-                                           this->rect.right,
-                                           this->rect.bottom,
-                                           GUI_LABEL_CAST(this)->text);
+        printf("[%4d,%4d,%4d,%4d] \"%s\"",
+                GUI_WIDGET_LEFT(this),
+                GUI_WIDGET_TOP(this),
+                GUI_WIDGET_RIGHT(this),
+                GUI_WIDGET_BOTTOM(this),
+                GUI_LABEL_TEXT(this));
 }
 
 COS_CLASS gui_label_class_get()
@@ -58,7 +59,7 @@ COS_CLASS gui_label_class_get()
 void gui_label_class_ctor(COS_CLASS class)
 {
         cos_super_class_ctor(GUI_WIDGET_TYPE);
-        GUI_WIDGET_CLASS_CAST(class)->print = gui_label_print_method;
+        GUI_WIDGET_CLASS_PRINT(class) = gui_label_print_method;
 }
 
 void gui_label_class_dtor(COS_CLASS class)
@@ -66,19 +67,17 @@ void gui_label_class_dtor(COS_CLASS class)
         cos_super_class_dtor(GUI_WIDGET_TYPE);
 }
 
-void gui_label_ctor(COS_OBJECT this, COS_VALUES values)
+void gui_label_ctor(COS_OBJECT this, COS_VALUES vals)
 {
-        GUI_LABEL label;
         const char *text;
         cos_super_ctor(GUI_WIDGET_TYPE, this);
-        label = GUI_LABEL_CAST(this);
-        text = cos_unbox_c_str(cos_values_at(values, 0));
-        label->text = malloc(strlen(text) + 1);
-        strcpy(label->text, text);
+        text = cos_unbox_c_str(cos_values_at(vals, 0));
+        GUI_LABEL_TEXT(this) = malloc(strlen(text) + 1);
+        strcpy(GUI_LABEL_TEXT(this), text);
 }
 
 void gui_label_dtor(COS_OBJECT this)
 {
-        free(GUI_LABEL_CAST(this)->text);
+        if (GUI_LABEL_TEXT(this)) free(GUI_LABEL_TEXT(this));
         cos_super_dtor(GUI_WIDGET_TYPE, this);
 }
