@@ -61,15 +61,15 @@ cos_class gui_label_class_get()
 
 void gui_label_class_construct(cos_class cls)
 {
-        g_gui_label_class = cls;
-        cos_super_class_construct(GUI_WIDGET);
+        if (!g_gui_label_class) g_gui_label_class = cls;
+        cos_super_class_construct(GUI_WIDGET, cls);
         GUI_WIDGET_CLASS_PRINT(cls) = gui_label_print_method;
 }
 
 void gui_label_class_destruct(cos_class cls)
 {
-        cos_super_class_destruct(GUI_WIDGET);
-        g_gui_label_class = NULL;
+        cos_super_class_destruct(GUI_WIDGET, cls);
+        if (g_gui_label_class == cls) g_gui_label_class = NULL;
 }
 
 void gui_label_construct(cos_object obj, cos_values vals)

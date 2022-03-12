@@ -93,14 +93,14 @@ cos_class gui_layout_class_get()
 
 void gui_layout_class_construct(cos_class cls)
 {
-        g_gui_layout_class = cls;
-        cos_super_class_construct(COS_OBJECT);
+        if (!g_gui_layout_class) g_gui_layout_class = cls;
+        cos_super_class_construct(COS_OBJECT, cls);
 }
 
 void gui_layout_class_destruct(cos_class cls)
 {
-        cos_super_class_destruct(COS_OBJECT);
-        g_gui_layout_class = NULL;
+        cos_super_class_destruct(COS_OBJECT, cls);
+        if (g_gui_layout_class == cls) g_gui_layout_class = NULL;
 }
 
 void gui_layout_construct(cos_object obj, cos_values vals)

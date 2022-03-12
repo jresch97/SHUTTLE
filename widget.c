@@ -59,15 +59,15 @@ cos_class gui_widget_class_get()
 
 void gui_widget_class_construct(cos_class cls)
 {
-        g_gui_widget_class = cls;
-        cos_super_class_construct(COS_OBJECT);
+        if (!g_gui_widget_class) g_gui_widget_class = cls;
+        cos_super_class_construct(COS_OBJECT, cls);
         GUI_WIDGET_CLASS_PRINT(cls) = gui_widget_print_method;
 }
 
 void gui_widget_class_destruct(cos_class cls)
 {
-        cos_super_class_destruct(COS_OBJECT);
-        g_gui_widget_class = NULL;
+        cos_super_class_destruct(COS_OBJECT, cls);
+        if (g_gui_widget_class == cls) g_gui_widget_class = NULL;
 }
 
 void gui_widget_construct(cos_object obj, cos_values vals)

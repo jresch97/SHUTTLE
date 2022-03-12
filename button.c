@@ -59,15 +59,15 @@ cos_class gui_button_class_get()
 
 void gui_button_class_construct(cos_class cls)
 {
-        g_gui_button_class = cls;
-        cos_super_class_construct(GUI_WIDGET);
+        if (!g_gui_button_class) g_gui_button_class = cls;
+        cos_super_class_construct(GUI_WIDGET, cls);
         GUI_WIDGET_CLASS_PRINT(cls) = gui_button_print_method;
 }
 
 void gui_button_class_destruct(cos_class cls)
 {
-        cos_super_class_destruct(GUI_WIDGET);
-        g_gui_button_class = NULL;
+        cos_super_class_destruct(GUI_WIDGET, cls);
+        if (g_gui_button_class == cls) g_gui_button_class = NULL;
 }
 
 void gui_button_construct(cos_object obj, cos_values vals)
