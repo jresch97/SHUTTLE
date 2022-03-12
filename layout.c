@@ -27,30 +27,6 @@
 
 static cos_class g_gui_layout_class = NULL;
 
-/*
-void gui_layout_hbox(gui_layout lay, gui_widget wdg)
-{
-        int x, dx, n_child = 0;
-        gui_widget curr = GUI_WIDGET_CHILD(widget);
-        while (curr) {
-                curr = GUI_WIDGET_NEXT(curr);
-                n_child++;
-        }
-        if (n_child == 0) return;
-        x = GUI_WIDGET_LEFT(widget);
-        dx = GUI_WIDGET_WIDTH(widget) / n_child;
-        curr = GUI_WIDGET_CHILD(widget);
-        while (curr) {
-                GUI_WIDGET_TOP(curr) = GUI_WIDGET_TOP(widget);
-                GUI_WIDGET_BOTTOM(curr) = GUI_WIDGET_BOTTOM(widget);
-                GUI_WIDGET_LEFT(curr) = x;
-                x += dx;
-                GUI_WIDGET_RIGHT(curr) = x;
-                curr = GUI_WIDGET_NEXT(curr);
-        }
-}
-*/
-
 cos_class gui_layout_class_get()
 {
         cos_class cls;
