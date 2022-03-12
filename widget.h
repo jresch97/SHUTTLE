@@ -62,18 +62,19 @@
 #define GUI_WIDGET_CHILD(obj)       GUI_WIDGET_CAST(obj)->child
 #define GUI_WIDGET_NEXT(obj)        GUI_WIDGET_CAST(obj)->next
 #define GUI_WIDGET_LAYOUT(obj)      GUI_WIDGET_CAST(obj)->layout
-#define GUI_WIDGET_WIDTH(obj)       (GUI_RECT_WIDTH(GUI_WIDGET_RECT(obj)))
-#define GUI_WIDGET_HEIGHT(obj)      (GUI_RECT_HEIGHT(GUI_WIDGET_RECT(obj)))
-#define GUI_WIDGET_PRINT(obj)       (GUI_WIDGET_CLASS_PRINT(COS_OBJECT_CLASS(obj))(obj))
+#define GUI_WIDGET_WIDTH(obj)       GUI_RECT_WIDTH(GUI_WIDGET_RECT(obj))
+#define GUI_WIDGET_HEIGHT(obj)      GUI_RECT_HEIGHT(GUI_WIDGET_RECT(obj))
 #define GUI_WIDGET_CLASS_PRINT(cls) GUI_WIDGET_CLASS_CAST(cls)->print
 #define GUI_WIDGET_CLASS_DRAW(cls)  GUI_WIDGET_CLASS_CAST(cls)->draw
 #define GUI_WIDGET_CLASS_PAINT(cls) GUI_WIDGET_CLASS_CAST(cls)->paint
+#define GUI_WIDGET_PRINT(obj)       GUI_WIDGET_CLASS_PRINT(COS_OBJECT_CLASS(obj))
+#define GUI_WIDGET_PAINT(obj)       GUI_WIDGET_CLASS_PAINT(COS_OBJECT_CLASS(obj))
 
 struct gui_widget_class_s {
         struct cos_class_s cls;
         void (*print)(gui_widget);
         void (*draw) (gui_widget, gui_commands);
-        void (*paint)(gui_widget, gui_framebuffer, gui_rect);
+        void (*paint)(gui_widget, gui_rect, void *px);
 };
 
 struct gui_widget_s {
@@ -81,6 +82,7 @@ struct gui_widget_s {
         gui_widget          parent, child, next;
         gui_rect            rect;
         gui_layout          layout;
+        int                 color;
 };
 
 cos_class gui_widget_class_get();
@@ -92,8 +94,8 @@ void      gui_widget_add(gui_widget parent, gui_widget child);
 void      gui_widget_add_many(gui_widget parent, size_t n, ...);
 void      gui_widget_print(gui_widget wdg);
 void      gui_widget_draw(gui_widget wdg, gui_commands out);
-void      gui_widget_paint(gui_widget wdg, gui_framebuffer fb, gui_rect rect);
 void      gui_widget_layout(gui_widget wdg);
 void      gui_widget_resize(gui_widget wdg, gui_rect rect);
+void      gui_widget_paint(gui_widget wdg, gui_rect rect, void *px);
 
 #endif

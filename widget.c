@@ -30,13 +30,24 @@
 
 static cos_class g_gui_widget_class = NULL;
 
-static void gui_widget_print_method(gui_widget obj)
+static void gui_widget_print_method(gui_widget wdg)
 {
         printf("[%4d,%4d,%4d,%4d] ~",
-                GUI_WIDGET_LEFT(obj),
-                GUI_WIDGET_TOP(obj),
-                GUI_WIDGET_RIGHT(obj),
-                GUI_WIDGET_BOTTOM(obj));
+                GUI_WIDGET_LEFT(wdg),
+                GUI_WIDGET_TOP(wdg),
+                GUI_WIDGET_RIGHT(wdg),
+                GUI_WIDGET_BOTTOM(wdg));
+}
+
+static void gui_widget_paint_method(gui_widget wdg, gui_rect rect, void *px)
+{
+        int x, y, w;
+        w = GUI_RECT_WIDTH(rect);
+        for (y = GUI_WIDGET_TOP(wdg); y < GUI_WIDGET_BOTTOM(wdg); y++) {
+                for (x = GUI_WIDGET_LEFT(wdg); x < GUI_WIDGET_RIGHT(wdg); x++) {
+                        ((int*)px)[x + y * w] = wdg->color;
+                }
+        }
 }
 
 cos_class gui_widget_class_get()
@@ -62,6 +73,7 @@ void gui_widget_class_construct(cos_class cls)
         if (!g_gui_widget_class) g_gui_widget_class = cls;
         cos_super_class_construct(COS_OBJECT, cls);
         GUI_WIDGET_CLASS_PRINT(cls) = gui_widget_print_method;
+        GUI_WIDGET_CLASS_PAINT(cls) = gui_widget_paint_method;
 }
 
 void gui_widget_class_destruct(cos_class cls)
@@ -82,6 +94,9 @@ void gui_widget_construct(cos_object obj, cos_values vals)
         GUI_WIDGET_BOTTOM(obj) = 0;
         GUI_WIDGET_LAYOUT(obj) = GUI_LAYOUT_CAST(
                 cos_unbox_object(cos_values_at(vals, 0)));
+        GUI_WIDGET_CAST(obj)->color = (rand() % 256 << 16) +
+                                      (rand() % 256 <<  8) +
+                                      (rand() % 256 <<  0);
 }
 
 void gui_widget_destruct(cos_object obj)
@@ -119,7 +134,7 @@ static void gui_widget_pr1nt(gui_widget wdg, int lvl)
         size_t i;
         gui_widget curr = GUI_WIDGET_CHILD(wdg);
         for (i = 0; i < lvl; i++) printf("\t");
-        GUI_WIDGET_PRINT(wdg);
+        GUI_WIDGET_PRINT(wdg)(wdg);
         printf("\n");
         while (curr) {
                 gui_widget_pr1nt(curr, lvl + 1);
@@ -148,4 +163,14 @@ void gui_widget_resize(gui_widget wdg, gui_rect rect)
 {
         GUI_WIDGET_RECT(wdg) = rect;
         gui_widget_layout(wdg);
+}
+
+void gui_widget_paint(gui_widget wdg, gui_rect rect, void *px)
+{
+        gui_widget curr = GUI_WIDGET_CHILD(wdg);
+        GUI_WIDGET_PAINT(wdg)(wdg, rect, px);
+        while (curr) {
+                gui_widget_paint(curr, rect, px);
+                curr = GUI_WIDGET_NEXT(curr);
+        }
 }

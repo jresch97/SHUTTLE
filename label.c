@@ -26,8 +26,6 @@
 #include <string.h>
 
 #include "label.h"
-#include "param.h"
-#include "value.h"
 
 static cos_class g_gui_label_class = NULL;
 
