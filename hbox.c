@@ -22,6 +22,9 @@ static void gui_hbox_layout_method(gui_layout lay, gui_widget wdg)
                 GUI_WIDGET_LEFT(curr) = x;
                 x += dx;
                 GUI_WIDGET_RIGHT(curr) = x;
+                if (!curr->next) {
+                        GUI_WIDGET_RIGHT(curr) = GUI_WIDGET_WIDTH(wdg);
+                }
                 curr = GUI_WIDGET_NEXT(curr);
         }
 }

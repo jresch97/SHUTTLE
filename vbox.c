@@ -22,6 +22,9 @@ static void gui_vbox_layout_method(gui_layout layout, gui_widget wdg)
                 GUI_WIDGET_TOP(curr) = y;
                 y += dy;
                 GUI_WIDGET_BOTTOM(curr) = y;
+                if (!curr->next) {
+                        GUI_WIDGET_BOTTOM(curr) = GUI_WIDGET_HEIGHT(wdg);
+                }
                 curr = GUI_WIDGET_NEXT(curr);
         }
 }
