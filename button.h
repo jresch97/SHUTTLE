@@ -24,28 +24,28 @@
 
 #include "widget.h"
 
-#define GUI_BUTTON_CLASS_NAME        "Button"
-#define GUI_BUTTON_TYPE              (gui_btn_class_get())
-#define GUI_BUTTON_CAST(btn)         ((GUI_BUTTON)btn)
-#define GUI_BUTTON_TEXT(btn)         (((GUI_BUTTON)btn)->text)
-#define GUI_BUTTON_CLASS_CAST(class) ((GUI_BUTTON_CLASS)class)
+#define GUI_BUTTON_NAME            "Button"
+#define GUI_BUTTON                 (gui_button_class_get())
+#define GUI_BUTTON_CAST(obj)       ((gui_button)obj)
+#define GUI_BUTTON_CLASS_CAST(cls) ((gui_button_class)cls)
+#define GUI_BUTTON_TEXT(obj)       GUI_BUTTON_CAST(obj)->text
 
-typedef struct GUI_BUTTON_CLASS_S *GUI_BUTTON_CLASS;
-typedef struct GUI_BUTTON_S       *GUI_BUTTON;
+typedef struct gui_button_class_s *gui_button_class;
+typedef struct gui_button_s       *gui_button;
 
-struct GUI_BUTTON_CLASS_S {
-        struct GUI_WIDGET_CLASS_S class;
+struct gui_button_class_s {
+        struct gui_widget_class_s cls;
 };
 
-struct GUI_BUTTON_S {
-        struct GUI_WIDGET_S widget;
+struct gui_button_s {
+        struct gui_widget_s wdg;
         char *text;
 };
 
-COS_CLASS gui_btn_class_get();
-void      gui_btn_class_ctor(COS_CLASS class);
-void      gui_btn_class_dtor(COS_CLASS class);
-void      gui_btn_ctor(COS_OBJECT this, COS_VALUES vals);
-void      gui_btn_dtor(COS_OBJECT this);
+cos_class gui_button_class_get();
+void      gui_button_class_construct(cos_class cls);
+void      gui_button_class_destruct(cos_class cls);
+void      gui_button_construct(cos_object obj, cos_values vals);
+void      gui_button_destruct(cos_object obj);
 
 #endif

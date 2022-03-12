@@ -29,60 +29,60 @@
 #include "param.h"
 #include "value.h"
 
-static cos_class gui_label_class = NULL;
+static cos_class g_gui_label_class = NULL;
 
-static void gui_lbl_print(gui_widget wdg)
+static void gui_label_print_method(gui_widget wdg)
 {
         printf("[%4d,%4d,%4d,%4d] \"%s\"",
-                GUI_WDG_LEFT(this),
-                GUI_WDG_TOP(this),
-                GUI_WDG_RIGHT(this),
-                GUI_WDG_BOTTOM(this),
-                GUI_LBL_TEXT(this));
+                GUI_WIDGET_LEFT(wdg),
+                GUI_WIDGET_TOP(wdg),
+                GUI_WIDGET_RIGHT(wdg),
+                GUI_WIDGET_BOTTOM(wdg),
+                GUI_LABEL_TEXT(wdg));
 }
 
-COS_CLASS gui_lbl_class_get()
+cos_class gui_label_class_get()
 {
         cos_class cls;
         cos_class_spec info;
-        if (gui_label_class) return gui_label_class;
+        if (g_gui_label_class) return g_gui_label_class;
         if (cos_class_lookup(GUI_LABEL_NAME, &cls)) return cls;
-        info.name        = GUI_LABEL_CLASS_NAME;
-        info.parent      = GUI_WIDGET_TYPE;
-        info.class.size  = sizeof(struct GUI_LABEL_CLASS_S);
-        info.class.ctor  = gui_lbl_class_ctor;
-        info.class.dtor  = gui_lbl_class_dtor;
-        info.inst.size   = sizeof(struct GUI_LABEL_S);
-        info.inst.ctor   = gui_lbl_ctor;
-        info.inst.dtor   = gui_lbl_dtor;
-        info.inst.params = cos_params(1, "text", COS_TYPE_C_STR);
+        info.name        = GUI_LABEL_NAME;
+        info.parent      = GUI_WIDGET;
+        info.cls.size    = sizeof(struct gui_label_class_s);
+        info.cls.ctor    = gui_label_class_construct;
+        info.cls.dtor    = gui_label_class_destruct;
+        info.inst.size   = sizeof(struct gui_label_s);
+        info.inst.ctor   = gui_label_construct;
+        info.inst.dtor   = gui_label_destruct;
+        info.inst.params = cos_params_list(1, "text", COS_TYPE_STRING);
         return cos_class_define(&info);
 }
 
-void gui_lbl_cls_ctor(cos_class cls)
+void gui_label_class_construct(cos_class cls)
 {
-        gui_label_class = cls;
-        cos_super_cls_ctor(gui_lbl_cls);
-        GUI_WDG_CLS_PRINT(cls) = gui_lbl_print;
+        g_gui_label_class = cls;
+        cos_super_class_construct(GUI_WIDGET);
+        GUI_WIDGET_CLASS_PRINT(cls) = gui_label_print_method;
 }
 
-void gui_lbl_cls_dtor(cos_class cls)
+void gui_label_class_destruct(cos_class cls)
 {
-        cos_super_cls_dtor(GUI_WIDGET);
-        gui_label_class = NULL;
+        cos_super_class_destruct(GUI_WIDGET);
+        g_gui_label_class = NULL;
 }
 
-void gui_lbl_ctor(COS_OBJECT this, COS_VALUES vals)
+void gui_label_construct(cos_object obj, cos_values vals)
 {
         const char *text;
-        cos_super_ctor(GUI_WIDGET_TYPE, this, GUI_LAYOUT_NONE);
-        text = cos_unbox_c_str(cos_values_at(vals, 0));
-        GUI_LABEL_TEXT(this) = malloc(strlen(text) + 1);
-        strcpy(GUI_LABEL_TEXT(this), text);
+        cos_super_construct(GUI_WIDGET, obj);
+        text = cos_unbox_string(cos_values_at(vals, 0));
+        GUI_LABEL_TEXT(obj) = malloc(strlen(text) + 1);
+        strcpy(GUI_LABEL_TEXT(obj), text);
 }
 
-void gui_lbl_dtor(COS_OBJECT this)
+void gui_label_destruct(cos_object obj)
 {
-        if (GUI_LABEL_TEXT(this)) free(GUI_LABEL_TEXT(this));
-        cos_super_dtor(GUI_WIDGET_TYPE, this);
+        if (GUI_LABEL_TEXT(obj)) free(GUI_LABEL_TEXT(obj));
+        cos_super_destruct(GUI_WIDGET, obj);
 }

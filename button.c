@@ -26,58 +26,61 @@
 #include <string.h>
 
 #include "button.h"
-#include "param.h"
-#include "value.h"
 
-static void gui_btn_print_method(GUI_WIDGET this)
+static cos_class g_gui_button_class = NULL;
+
+static void gui_button_print_method(gui_widget wdg)
 {
         printf("[%4d,%4d,%4d,%4d] [%s]",
-                GUI_WIDGET_LEFT(this),
-                GUI_WIDGET_TOP(this),
-                GUI_WIDGET_RIGHT(this),
-                GUI_WIDGET_BOTTOM(this),
-                GUI_BUTTON_TEXT(this));
+                GUI_WIDGET_LEFT(wdg),
+                GUI_WIDGET_TOP(wdg),
+                GUI_WIDGET_RIGHT(wdg),
+                GUI_WIDGET_BOTTOM(wdg),
+                GUI_BUTTON_TEXT(wdg));
 }
 
-COS_CLASS gui_btn_class_get()
+cos_class gui_button_class_get()
 {
-        COS_CLASS class;
-        COS_CLASS_INFO info;
-        if (cos_class_lookup(GUI_BUTTON_CLASS_NAME, &class)) return class;
-        info.name        = GUI_BUTTON_CLASS_NAME;
-        info.parent      = GUI_WIDGET_TYPE;
-        info.class.size  = sizeof(struct GUI_BUTTON_CLASS_S);
-        info.class.ctor  = gui_btn_class_ctor;
-        info.class.dtor  = gui_btn_class_dtor;
-        info.inst.size   = sizeof(struct GUI_BUTTON_S);
-        info.inst.ctor   = gui_btn_ctor;
-        info.inst.dtor   = gui_btn_dtor;
-        info.inst.params = cos_params(1, "text", COS_TYPE_C_STR);
-        return cos_class_define(&info);
+        cos_class cls;
+        cos_class_spec spec;
+        if (g_gui_button_class) return g_gui_button_class;
+        if (cos_class_lookup(GUI_BUTTON_NAME, &cls)) return cls;
+        spec.name        = GUI_BUTTON_NAME;
+        spec.parent      = GUI_WIDGET;
+        spec.cls.size    = sizeof(struct gui_button_class_s);
+        spec.cls.ctor    = gui_button_class_construct;
+        spec.cls.dtor    = gui_button_class_destruct;
+        spec.inst.size   = sizeof(struct gui_button_s);
+        spec.inst.ctor   = gui_button_construct;
+        spec.inst.dtor   = gui_button_destruct;
+        spec.inst.params = cos_params_list(1, "text", COS_TYPE_STRING);
+        return cos_class_define(&spec);
 }
 
-void gui_btn_class_ctor(COS_CLASS class)
+void gui_button_class_construct(cos_class cls)
 {
-        cos_super_class_ctor(GUI_WIDGET_TYPE);
-        GUI_WIDGET_CLASS_PRINT(class) = gui_btn_print_method;
+        g_gui_button_class = cls;
+        cos_super_class_construct(GUI_WIDGET);
+        GUI_WIDGET_CLASS_PRINT(cls) = gui_button_print_method;
 }
 
-void gui_btn_class_dtor(COS_CLASS class)
+void gui_button_class_destruct(cos_class cls)
 {
-        cos_super_class_dtor(GUI_WIDGET_TYPE);
+        cos_super_class_destruct(GUI_WIDGET);
+        g_gui_button_class = NULL;
 }
 
-void gui_btn_ctor(COS_OBJECT this, COS_VALUES vals)
+void gui_button_construct(cos_object obj, cos_values vals)
 {
         const char *text;
-        cos_super_ctor(GUI_WIDGET_TYPE, this, GUI_LAYOUT_NONE);
-        text = cos_unbox_c_str(cos_values_at(vals, 0));
-        GUI_BUTTON_TEXT(this) = malloc(strlen(text) + 1);
-        strcpy(GUI_BUTTON_TEXT(this), text);
+        cos_super_construct(GUI_WIDGET, obj);
+        text = cos_unbox_string(cos_values_at(vals, 0));
+        GUI_BUTTON_TEXT(obj) = malloc(strlen(text) + 1);
+        strcpy(GUI_BUTTON_TEXT(obj), text);
 }
 
-void gui_btn_dtor(COS_OBJECT this)
+void gui_button_destruct(cos_object obj)
 {
-        if (GUI_BUTTON_TEXT(this)) free(GUI_BUTTON_TEXT(this));
-        cos_super_dtor(GUI_WIDGET_TYPE, this);
+        if (GUI_BUTTON_TEXT(obj)) free(GUI_BUTTON_TEXT(obj));
+        cos_super_destruct(GUI_WIDGET, obj);
 }

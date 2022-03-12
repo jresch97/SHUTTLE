@@ -25,5 +25,7 @@
 #include "rect.h"
 #include "layout.h"
 #include "widget.h"
+#include "button.h"
+#include "label.h"
 
 #endif

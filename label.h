@@ -28,7 +28,7 @@
 #define GUI_LABEL                 (gui_label_class_get())
 #define GUI_LABEL_CAST(obj)       ((gui_label)obj)
 #define GUI_LABEL_CLASS_CAST(cls) ((gui_label_class)cls)
-#define GUI_LABEL_TEXT(obj)       (GUI_LABEL_CAST(obj)->text)
+#define GUI_LABEL_TEXT(obj)       GUI_LABEL_CAST(obj)->text
 
 typedef struct gui_label_class_s *gui_label_class;
 typedef struct gui_label_s       *gui_label;
@@ -42,11 +42,10 @@ struct gui_label_s {
         char               *text;
 };
 
-cos_class   gui_label_class_get();
-void        gui_label_class_construct(cos_class cls);
-void        gui_label_class_destruct(cos_class cls);
-void        gui_label_construct(cos_object obj, cos_values vals);
-void        gui_label_destruct(cos_object obj);
-const char *gui_label_text(gui_label label);
+cos_class gui_label_class_get();
+void      gui_label_class_construct(cos_class cls);
+void      gui_label_class_destruct(cos_class cls);
+void      gui_label_construct(cos_object obj, cos_values vals);
+void      gui_label_destruct(cos_object obj);
 
 #endif
