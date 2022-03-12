@@ -1,5 +1,5 @@
 # SHUTTLE
-Retained GUI toolkit for Linux in ANSI C.
+Retained GUI toolkit for GNU/Linux in ANSI C.
 
 Components/Dependencies:
 
