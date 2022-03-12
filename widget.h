@@ -22,11 +22,10 @@
 #ifndef GUI_WIDGET_H
 #define GUI_WIDGET_H
 
-#include <object.h>
+#include <cosine.h>
 
 #include "type.h"
 #include "rect.h"
-#include "layout.h"
 
 /*
  * Design:
@@ -50,54 +49,51 @@
  *
  */
 
-#define GUI_WIDGET_CLASS_NAME         "Widget"
-#define GUI_WIDGET_TYPE               (gui_wdg_class_get())
-#define GUI_WIDGET_CAST(wdg)          ((GUI_WIDGET)wdg)
-#define GUI_WIDGET_CLASS(wdg)         ((GUI_WIDGET_CLASS)wdg->obj.class)
-#define GUI_WIDGET_RECT(wdg)          (((GUI_WIDGET)wdg)->rect)
-#define GUI_WIDGET_LEFT(wdg)          (((GUI_WIDGET)wdg)->rect.left)
-#define GUI_WIDGET_TOP(wdg)           (((GUI_WIDGET)wdg)->rect.top)
-#define GUI_WIDGET_RIGHT(wdg)         (((GUI_WIDGET)wdg)->rect.right)
-#define GUI_WIDGET_BOTTOM(wdg)        (((GUI_WIDGET)wdg)->rect.bottom)
-#define GUI_WIDGET_WIDTH(wdg)         (((GUI_WIDGET)wdg)->rect.right - \
-                                       ((GUI_WIDGET)wdg)->rect.left)
-#define GUI_WIDGET_HEIGHT(wdg)        (((GUI_WIDGET)wdg)->rect.bottom - \
-                                       ((GUI_WIDGET)wdg)->rect.top)
-#define GUI_WIDGET_CHILD(wdg)         (((GUI_WIDGET)wdg)->child)
-#define GUI_WIDGET_NEXT(wdg)          (((GUI_WIDGET)wdg)->next)
-#define GUI_WIDGET_LAYOUT(wdg)        (((GUI_WIDGET)wdg)->layout)
-#define GUI_WIDGET_CLASS_CAST(class)  ((GUI_WIDGET_CLASS)class)
-#define GUI_WIDGET_CLASS_PRINT(class) (((GUI_WIDGET_CLASS)class)->print)
-#define GUI_WIDGET_CLASS_DRAW(class)  (((GUI_WIDGET_CLASS)class)->draw)
-#define GUI_WIDGET_CLASS_PAINT(class) (((GUI_WIDGET_CLASS)class)->paint)
+#define GUI_WIDGET_NAME             "Widget"
+#define GUI_WIDGET                  (gui_widget_class_get())
+#define GUI_WIDGET_CAST(obj)        ((gui_widget)obj)
+#define GUI_WIDGET_CLASS_CAST(cls)  ((gui_widget_class)cls)
+#define GUI_WIDGET_RECT(obj)        GUI_WIDGET_CAST(obj)->rect
+#define GUI_WIDGET_LEFT(obj)        GUI_WIDGET_RECT(obj).left
+#define GUI_WIDGET_TOP(obj)         GUI_WIDGET_RECT(obj).top
+#define GUI_WIDGET_RIGHT(obj)       GUI_WIDGET_RECT(obj).right
+#define GUI_WIDGET_BOTTOM(obj)      GUI_WIDGET_RECT(obj).bottom
+#define GUI_WIDGET_PARENT(obj)      GUI_WIDGET_CAST(obj)->parent
+#define GUI_WIDGET_CHILD(obj)       GUI_WIDGET_CAST(obj)->child
+#define GUI_WIDGET_NEXT(obj)        GUI_WIDGET_CAST(obj)->next
+#define GUI_WIDGET_LAYOUT(obj)      GUI_WIDGET_CAST(obj)->layout
+#define GUI_WIDGET_WIDTH(obj)       (GUI_RECT_WIDTH(GUI_WIDGET_RECT(obj)))
+#define GUI_WIDGET_HEIGHT(obj)      (GUI_RECT_HEIGHT(GUI_WIDGET_RECT(obj)))
+#define GUI_WIDGET_PRINT(obj)       (GUI_WIDGET_CLASS_PRINT(COS_OBJECT_CLASS(obj))(obj))
+#define GUI_WIDGET_CLASS_PRINT(cls) GUI_WIDGET_CLASS_CAST(cls)->print
+#define GUI_WIDGET_CLASS_DRAW(cls)  GUI_WIDGET_CLASS_CAST(cls)->draw
+#define GUI_WIDGET_CLASS_PAINT(cls) GUI_WIDGET_CLASS_CAST(cls)->paint
 
-struct GUI_WIDGET_CLASS_S {
-        struct COS_CLASS_S class;
-        void (*print)(GUI_WIDGET);
-        void  (*draw)(GUI_WIDGET, GUI_COMMANDS);
-        void (*paint)(GUI_WIDGET, GUI_FRAMEBUFFER, GUI_RECT);
+struct gui_widget_class_s {
+        struct cos_class_s cls;
+        void (*print)(gui_widget);
+        void (*draw) (gui_widget, gui_commands);
+        void (*paint)(gui_widget, gui_framebuffer, gui_rect);
 };
 
-struct GUI_WIDGET_S {
-        struct COS_OBJECT_S obj;
-        GUI_WIDGET          child, next;
-        GUI_RECT            rect;
-        int                 layout;
+struct gui_widget_s {
+        struct cos_object_s obj;
+        gui_widget          parent, child, next;
+        gui_rect            rect;
+        gui_layout          layout;
 };
 
-COS_CLASS gui_wdg_class_get();
-void      gui_wdg_class_ctor(COS_CLASS class);
-void      gui_wdg_class_dtor(COS_CLASS class);
-void      gui_wdg_ctor(COS_OBJECT this, COS_VALUES values);
-void      gui_wdg_dtor(COS_OBJECT this);
-void      gui_wdg_append(GUI_WIDGET this, GUI_WIDGET child);
-void      gui_wdg_print(GUI_WIDGET this);
-void      gui_wdg_draw(GUI_WIDGET this, GUI_COMMANDS out);
-void      gui_wdg_paint(GUI_WIDGET this, GUI_FRAMEBUFFER fb, GUI_RECT rect);
-GUI_RECT  gui_wdg_rect(GUI_WIDGET this);
-int       gui_wdg_width(GUI_WIDGET this);
-int       gui_wdg_height(GUI_WIDGET this);
-void      gui_wdg_layout(GUI_WIDGET this);
-void      gui_wdg_resize(GUI_WIDGET this, GUI_RECT rect);
+cos_class gui_widget_class_get();
+void      gui_widget_class_construct(cos_class cls);
+void      gui_widget_class_destruct(cos_class cls);
+void      gui_widget_construct(cos_object obj, cos_values vals);
+void      gui_widget_destruct(cos_object obj);
+void      gui_widget_add(gui_widget parent, gui_widget child);
+void      gui_widget_many(gui_widget parent, size_t n, ...);
+void      gui_widget_print(gui_widget wdg);
+void      gui_widget_draw(gui_widget wdg, gui_commands out);
+void      gui_widget_paint(gui_widget wdg, gui_framebuffer fb, gui_rect rect);
+void      gui_widget_layout(gui_widget wdg);
+void      gui_widget_resize(gui_widget wdg, gui_rect rect);
 
 #endif

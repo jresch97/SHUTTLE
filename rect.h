@@ -22,7 +22,7 @@
 #ifndef GUI_RECT_H
 #define GUI_RECT_H
 
-typedef struct GUI_RECT_S { int left, top, right, bottom; } GUI_RECT;
+typedef struct gui_rect_s { int left, top, right, bottom; } gui_rect;
 
 #define GUI_RECT_WIDTH(rect)  (rect.right - rect.left)
 #define GUI_RECT_HEIGHT(rect) (rect.bottom - rect.top)

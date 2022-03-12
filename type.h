@@ -1,16 +1,13 @@
 #ifndef GUI_TYPE_H
 #define GUI_TYPE_H
 
-enum GUI_LAYOUT_TYPES {
-        GUI_LAYOUT_NONE,
-        GUI_LAYOUT_VBOX,
-        GUI_LAYOUT_HBOX
-};
+#include "rect.h"
 
-typedef struct GUI_FRAMEBUFFER_S *GUI_FRAMEBUFFER;
-typedef struct GUI_COMMANDS_S    *GUI_COMMANDS;
-
-typedef struct GUI_WIDGET_CLASS_S *GUI_WIDGET_CLASS;
-typedef struct GUI_WIDGET_S       *GUI_WIDGET;
+typedef struct gui_framebuffer_s  *gui_framebuffer;
+typedef struct gui_commands_s     *gui_commands;
+typedef struct gui_widget_class_s *gui_widget_class;
+typedef struct gui_widget_s       *gui_widget;
+typedef struct gui_layout_class_s *gui_layout_class;
+typedef struct gui_layout_s       *gui_layout;
 
 #endif

@@ -29,21 +29,24 @@
 #include "param.h"
 #include "value.h"
 
-static void gui_lbl_print_method(GUI_WIDGET this)
+static cos_class gui_label_class = NULL;
+
+static void gui_lbl_print(gui_widget wdg)
 {
         printf("[%4d,%4d,%4d,%4d] \"%s\"",
-                GUI_WIDGET_LEFT(this),
-                GUI_WIDGET_TOP(this),
-                GUI_WIDGET_RIGHT(this),
-                GUI_WIDGET_BOTTOM(this),
-                GUI_LABEL_TEXT(this));
+                GUI_WDG_LEFT(this),
+                GUI_WDG_TOP(this),
+                GUI_WDG_RIGHT(this),
+                GUI_WDG_BOTTOM(this),
+                GUI_LBL_TEXT(this));
 }
 
 COS_CLASS gui_lbl_class_get()
 {
-        COS_CLASS class;
-        COS_CLASS_INFO info;
-        if (cos_class_lookup(GUI_LABEL_CLASS_NAME, &class)) return class;
+        cos_class cls;
+        cos_class_spec info;
+        if (gui_label_class) return gui_label_class;
+        if (cos_class_lookup(GUI_LABEL_NAME, &cls)) return cls;
         info.name        = GUI_LABEL_CLASS_NAME;
         info.parent      = GUI_WIDGET_TYPE;
         info.class.size  = sizeof(struct GUI_LABEL_CLASS_S);
@@ -56,15 +59,17 @@ COS_CLASS gui_lbl_class_get()
         return cos_class_define(&info);
 }
 
-void gui_lbl_class_ctor(COS_CLASS class)
+void gui_lbl_cls_ctor(cos_class cls)
 {
-        cos_super_class_ctor(GUI_WIDGET_TYPE);
-        GUI_WIDGET_CLASS_PRINT(class) = gui_lbl_print_method;
+        gui_label_class = cls;
+        cos_super_cls_ctor(gui_lbl_cls);
+        GUI_WDG_CLS_PRINT(cls) = gui_lbl_print;
 }
 
-void gui_lbl_class_dtor(COS_CLASS class)
+void gui_lbl_cls_dtor(cos_class cls)
 {
-        cos_super_class_dtor(GUI_WIDGET_TYPE);
+        cos_super_cls_dtor(GUI_WIDGET);
+        gui_label_class = NULL;
 }
 
 void gui_lbl_ctor(COS_OBJECT this, COS_VALUES vals)

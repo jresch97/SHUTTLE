@@ -24,32 +24,48 @@
 
 #include <cosine.h>
 
-#include "widget.h"
-#include "button.h"
-#include "label.h"
+#include "gui.h"
 
 int main(void)
 {
-        GUI_RECT rect;
-        GUI_WIDGET widget1, widget2, widget3, button1, button2, label1, label2;
+        gui_rect   screen_rect;
+        gui_widget root, widget1, widget2;
+        /*
+        gui_widget label1, label2, button1, button2;
+        */
+        
         if (!cos_init()) return EXIT_FAILURE;
-        rect.left = rect.top = 0, rect.right = 640, rect.bottom = 480;
-        widget1 = cos_new(GUI_WIDGET_TYPE, GUI_LAYOUT_VBOX);
-        widget2 = cos_new(GUI_WIDGET_TYPE, GUI_LAYOUT_HBOX);
-        widget3 = cos_new(GUI_WIDGET_TYPE, GUI_LAYOUT_HBOX);
-        button1 = cos_new(GUI_BUTTON_TYPE, "Button 1");
-        label1 = cos_new(GUI_LABEL_TYPE, "Label 1");
-        button2 = cos_new(GUI_BUTTON_TYPE, "Button 2");
-        label2 = cos_new(GUI_LABEL_TYPE, "Label 2");
-        gui_wdg_append(widget1, widget2);
-        gui_wdg_append(widget1, widget3);
-        gui_wdg_append(widget2, button1);
-        gui_wdg_append(widget2, label1);
-        gui_wdg_append(widget3, button2);
-        gui_wdg_append(widget3, label2);
-        gui_wdg_resize(widget1, rect);
-        gui_wdg_print(widget1);
-        cos_deref_many(7, widget1, widget2, widget3, button1, button2, label1, label2);
+
+        screen_rect.left  = screen_rect.top = 0;
+        screen_rect.right = 640, screen_rect.bottom = 480;
+
+        root    = cos_new(GUI_WIDGET);
+        widget1 = cos_new(GUI_WIDGET);
+        widget2 = cos_new(GUI_WIDGET);
+
+        /*
+        label1  = cos_new(GUI_LABEL,  "Label 1");
+        label2  = cos_new(GUI_LABEL,  "Label 2");
+        button1 = cos_new(GUI_BUTTON, "Button 1");
+        button2 = cos_new(GUI_BUTTON, "Button 2");
+        */
+
+        gui_widget_add_many(root,    2, widget1, widget2);
+        /*
+        gui_widget_add_many(widget1, 2, label1, button1);
+        gui_widget_add_many(widget2, 2, label2, button2);
+        */
+
+        gui_widget_resize(root, screen_rect);
+        gui_widget_print(root);
+        
+        cos_deref_many(3, root, widget1, widget2);
+        
+        /*
+        cos_deref_many(4, button1, button2, label1, label2);
+        */
+
         cos_term();
+        
         return EXIT_SUCCESS;
 }

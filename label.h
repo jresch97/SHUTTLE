@@ -24,28 +24,29 @@
 
 #include "widget.h"
 
-#define GUI_LABEL_CLASS_NAME        "Label"
-#define GUI_LABEL_TYPE              (gui_lbl_class_get())
-#define GUI_LABEL_CAST(lbl)         ((GUI_LABEL)lbl)
-#define GUI_LABEL_TEXT(lbl)         (((GUI_LABEL)lbl)->text)
-#define GUI_LABEL_CLASS_CAST(class) ((GUI_LABEL_CLASS)class)
+#define GUI_LABEL_NAME            "Label"
+#define GUI_LABEL                 (gui_label_class_get())
+#define GUI_LABEL_CAST(obj)       ((gui_label)obj)
+#define GUI_LABEL_CLASS_CAST(cls) ((gui_label_class)cls)
+#define GUI_LABEL_TEXT(obj)       (GUI_LABEL_CAST(obj)->text)
 
-typedef struct GUI_LABEL_CLASS_S *GUI_LABEL_CLASS;
-typedef struct GUI_LABEL_S       *GUI_LABEL;
+typedef struct gui_label_class_s *gui_label_class;
+typedef struct gui_label_s       *gui_label;
 
-struct GUI_LABEL_CLASS_S {
-        struct GUI_WIDGET_CLASS_S class;
+struct gui_label_class_s {
+        struct gui_widget_class_s cls;
 };
 
-struct GUI_LABEL_S {
-        struct GUI_WIDGET_S widget;
-        char *text;
+struct gui_label_s {
+        struct gui_widget_s widget;
+        char               *text;
 };
 
-COS_CLASS gui_lbl_class_get();
-void      gui_lbl_class_ctor(COS_CLASS class);
-void      gui_lbl_class_dtor(COS_CLASS class);
-void      gui_lbl_ctor(COS_OBJECT this, COS_VALUES vals);
-void      gui_lbl_dtor(COS_OBJECT this);
+cos_class   gui_label_class_get();
+void        gui_label_class_construct(cos_class cls);
+void        gui_label_class_destruct(cos_class cls);
+void        gui_label_construct(cos_object obj, cos_values vals);
+void        gui_label_destruct(cos_object obj);
+const char *gui_label_text(gui_label label);
 
 #endif
