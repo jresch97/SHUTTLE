@@ -4,13 +4,13 @@ LDFLAGS = -L../COSINE -l:libcosine.a
 SRC = main.c widget.c layout.c
 OBJ = main.o widget.o layout.o
 
-gui: $(OBJ)
+shuttle: $(OBJ)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 .c.o:
 	$(CC) $(CFLAGS) -c $^ -o $@
 
 clean:
-	rm -f gui $(OBJ)
+	rm -f shuttle $(OBJ)
 
-.PHONY: clean
+.PHONY: shuttle clean

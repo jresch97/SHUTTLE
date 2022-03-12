@@ -89,7 +89,7 @@ void      gui_widget_class_destruct(cos_class cls);
 void      gui_widget_construct(cos_object obj, cos_values vals);
 void      gui_widget_destruct(cos_object obj);
 void      gui_widget_add(gui_widget parent, gui_widget child);
-void      gui_widget_many(gui_widget parent, size_t n, ...);
+void      gui_widget_add_many(gui_widget parent, size_t n, ...);
 void      gui_widget_print(gui_widget wdg);
 void      gui_widget_draw(gui_widget wdg, gui_commands out);
 void      gui_widget_paint(gui_widget wdg, gui_framebuffer fb, gui_rect rect);

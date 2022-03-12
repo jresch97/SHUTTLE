@@ -50,7 +50,7 @@ int main(void)
         button2 = cos_new(GUI_BUTTON, "Button 2");
         */
 
-        gui_widget_add_many(root,    2, widget1, widget2);
+        gui_widget_add_many(root, 2, widget1, widget2);
         /*
         gui_widget_add_many(widget1, 2, label1, button1);
         gui_widget_add_many(widget2, 2, label2, button2);
