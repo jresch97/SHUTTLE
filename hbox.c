@@ -4,7 +4,7 @@
 
 static cos_class g_gui_hbox_class = NULL;
 
-static void gui_hbox_layout_method(gui_layout lay, gui_widget wdg)
+static void gui_hbox_layout_method(gui_layout layout, gui_widget wdg)
 {
         int x, dx, n_child = 0;
         gui_widget curr = GUI_WIDGET_CHILD(wdg);
