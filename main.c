@@ -24,7 +24,7 @@
 
 #include <cosine.h>
 
-#include "gui.h"
+#include "shuttle.h"
 
 int main(void)
 {
