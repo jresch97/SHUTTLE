@@ -28,28 +28,6 @@
 static cos_class g_gui_layout_class = NULL;
 
 /*
-static void gui_layout_vbox(gui_layout lay, gui_widget wdg)
-{
-        int y, dy, n_child = 0;
-        gui_widget curr = GUI_WIDGET_CHILD(widget);
-        while (curr) {
-                curr = GUI_WIDGET_NEXT(curr);
-                n_child++;
-        }
-        if (n_child == 0) return;
-        y = GUI_WIDGET_TOP(widget);
-        dy = GUI_WIDGET_HEIGHT(widget) / n_child;
-        curr = GUI_WIDGET_CHILD(widget);
-        while (curr) {
-                GUI_WIDGET_LEFT(curr) = GUI_WIDGET_LEFT(widget);
-                GUI_WIDGET_RIGHT(curr) = GUI_WIDGET_RIGHT(widget);
-                GUI_WIDGET_TOP(curr) = y;
-                y += dy;
-                GUI_WIDGET_BOTTOM(curr) = y;
-                curr = GUI_WIDGET_NEXT(curr);
-        }
-}
-
 void gui_layout_hbox(gui_layout lay, gui_widget wdg)
 {
         int x, dx, n_child = 0;
@@ -111,4 +89,9 @@ void gui_layout_construct(cos_object obj, cos_values vals)
 void gui_layout_destruct(cos_object obj)
 {
         cos_super_destruct(COS_OBJECT, obj);
+}
+
+void gui_layout_apply(gui_layout layout, gui_widget wdg)
+{
+        GUI_LAYOUT_LAYOUT(layout, wdg);
 }

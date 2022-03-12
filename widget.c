@@ -134,18 +134,10 @@ void gui_widget_print(gui_widget wdg)
 
 void gui_widget_layout(gui_widget wdg)
 {
-        gui_widget curr;
-        /*
-        switch (GUI_WIDGET_LAYOUT(wdg)) {
-                case GUI_LAYOUT_VBOX:
-                        gui_layout_vbox(wdg);
-                        break;
-                case GUI_LAYOUT_HBOX:
-                        gui_layout_hbox(wdg);
-                        break;
+        gui_widget curr = GUI_WIDGET_CHILD(wdg);
+        if (GUI_WIDGET_LAYOUT(wdg)) {
+                gui_layout_apply(GUI_WIDGET_LAYOUT(wdg), wdg);
         }
-        */
-        curr = GUI_WIDGET_CHILD(wdg);
         while (curr) {
                 gui_widget_layout(curr);
                 curr = GUI_WIDGET_NEXT(curr);

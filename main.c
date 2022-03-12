@@ -35,9 +35,9 @@ int main(void)
         if (!cos_init()) return EXIT_FAILURE;
         screen_rect.left  = screen_rect.top = 0;
         screen_rect.right = 640, screen_rect.bottom = 480;
-        root    = cos_new(GUI_WIDGET);
-        widget1 = cos_new(GUI_WIDGET);
-        widget2 = cos_new(GUI_WIDGET);
+        root    = cos_new(GUI_WIDGET, cos_new(GUI_VBOX, 0, 0, 0, 0, 0));
+        widget1 = cos_new(GUI_WIDGET, NULL);
+        widget2 = cos_new(GUI_WIDGET, NULL);
         button1 = cos_new(GUI_BUTTON, "Button 1");
         button2 = cos_new(GUI_BUTTON, "Button 2");
         label1  = cos_new(GUI_LABEL,  "Label 1");

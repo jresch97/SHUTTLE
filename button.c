@@ -73,7 +73,7 @@ void gui_button_class_destruct(cos_class cls)
 void gui_button_construct(cos_object obj, cos_values vals)
 {
         const char *text;
-        cos_super_construct(GUI_WIDGET, obj);
+        cos_super_construct(GUI_WIDGET, obj, NULL);
         text = cos_unbox_string(cos_values_at(vals, 0));
         GUI_BUTTON_TEXT(obj) = malloc(strlen(text) + 1);
         strcpy(GUI_BUTTON_TEXT(obj), text);

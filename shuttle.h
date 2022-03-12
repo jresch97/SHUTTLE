@@ -24,6 +24,7 @@
 
 #include "rect.h"
 #include "layout.h"
+#include "vbox.h"
 #include "widget.h"
 #include "button.h"
 #include "label.h"

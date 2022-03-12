@@ -26,10 +26,13 @@
 
 #include "type.h"
 
-#define GUI_LAYOUT_NAME            "Layout"
-#define GUI_LAYOUT                 (gui_layout_class_get())
-#define GUI_LAYOUT_CAST(obj)       ((gui_layout)obj)
-#define GUI_LAYOUT_CLASS_CAST(cls) ((gui_layout_class)cls)
+#define GUI_LAYOUT_NAME              "Layout"
+#define GUI_LAYOUT                   (gui_layout_class_get())
+#define GUI_LAYOUT_CAST(obj)         ((gui_layout)obj)
+#define GUI_LAYOUT_CLASS_CAST(cls)   ((gui_layout_class)cls)
+#define GUI_LAYOUT_CLASS_LAYOUT(cls) GUI_LAYOUT_CLASS_CAST(cls)->layout
+#define GUI_LAYOUT_LAYOUT(obj, wdg)  (GUI_LAYOUT_CLASS_LAYOUT( \
+                                      COS_OBJECT_CLASS(obj))(obj, wdg))
 
 struct gui_layout_class_s {
         struct cos_class_s cls;
@@ -45,5 +48,6 @@ void      gui_layout_class_construct(cos_class cls);
 void      gui_layout_class_destruct(cos_class cls);
 void      gui_layout_construct(cos_object obj, cos_values vals);
 void      gui_layout_destruct(cos_object obj);
+void      gui_layout_apply(gui_layout layout, gui_widget wdg);
 
 #endif
