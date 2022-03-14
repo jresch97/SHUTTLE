@@ -1,16 +1,21 @@
 CC = gcc
-CFLAGS = -ansi -pedantic -Wall -fPIC -g -I../COSINE -I../EUROPA
+CFLAGS = -ansi -pedantic -Wall -fPIC -g -I./include -I../COSINE/include -I../EUROPA
 LDFLAGS = -L../COSINE -L../EUROPA -l:libcosine.a -l:libeuropa.a -lX11 -lXext
-SRC = main.c widget.c layout.c button.c label.c vbox.c hbox.c
-OBJ = main.o widget.o layout.o button.o label.o vbox.o hbox.o
+SRC = src/widget.c src/button.c src/layout.c src/vbox.c
+OBJ = src/widget.o src/button.o src/layout.o src/vbox.o
 
-shuttle: $(OBJ)
-	$(CC) -o $@ $^ $(LDFLAGS)
+all: libshuttle.a libshuttle.so
+
+libshuttle.a: $(OBJ)
+	$(AR) $(ARFLAGS) $@ $^
+
+libshuttle.so: $(OBJ)
+	$(CC) -shared $^ -o $@
 
 .c.o:
 	$(CC) $(CFLAGS) -c $^ -o $@
 
 clean:
-	rm -f shuttle $(OBJ)
+	rm libshuttle.a libshuttle.so $(OBJ)
 
-.PHONY: shuttle clean
+.PHONY: clean
